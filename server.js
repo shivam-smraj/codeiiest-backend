@@ -37,6 +37,11 @@ app.use('/api/v1/leaderboard', leaderboardRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, console.log(`CodeIIEST Backend Server running on port ${PORT}`));
+}
 
-app.listen(PORT, console.log(`CodeIIEST Backend Server running on port ${PORT}`));
+// Export the Express API
+export default app;
