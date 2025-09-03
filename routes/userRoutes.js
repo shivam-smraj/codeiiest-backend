@@ -18,6 +18,7 @@ router.get(
     }),
     googleAuthCallback
 );
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.route('/profile')
     .get(protect, getUserProfile)
