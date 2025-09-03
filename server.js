@@ -1,50 +1,42 @@
-require("dotenv").config();
-const mongoose = require("mongoose")
-const app = require("./app");
+// backend/server.js
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import connectDB from './config/db.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import configurePassport from './config/passport.js';
+import passport from 'passport';
 
+// Import all route files
+import userRoutes from './routes/userRoutes.js';
+import chapterRoutes from './routes/chapterRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';   
+import leaderboardRoutes from './routes/leaderboardRoutes.js'; 
 
-// Connecting to DATABASE ->>
-const DB = process.env.MONGO_CLIENT_URI.replace(
-	'<db_password>',
-	process.env.MONGO_CLIENT_PASSWORD
-);
+dotenv.config();
+connectDB();
+configurePassport();
 
-mongoose
-	.connect(DB, {
-		// <- Using Mongoose Connection
-		// useNewUrlParser: true,
-		// useCreateIndex: true,
-		// useFindAndModify: false,
-		// useUnifiedTopology: true,
-	})
-	.then(() => {
-		console.log('DB connection established');
-	})
-	.catch((err) => {
-		console.log("DB cCONNECTION ERROR: " + err.message);
-		
-	});
+const app = express();
 
-// Catching uncaught exception ->>
-process.on("unCaughtException", (err) => {
-    console.log(`UNCAUGHT EXCEPTION -> ${err.name} - ${err.message}`);
-    console.log("App SHUTTING DOWN...");
-    process.exit(1); // <- Then will shut down the server.
+app.use(cors());
+app.use(express.json());
+app.use(passport.initialize());
+// Test route
+app.get('/', (req, res) => {
+    res.send(`Server running fine`);
 });
 
-// Catching unHandleled Rejections ->
-process.on("unhandledRejection", (err) => {
-    console.log(`UNHANDELLED REJECTION -> ${err.name} - ${err.message}`);
-    console.log(err);
-    console.log("App SHUTTING DOWN...");
-    server.close(() => {
-        // <- This will first terminate all requests
+// Mount all routes
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/chapters', chapterRoutes); 
+app.use('/api/v1/events', eventRoutes);     
+app.use('/api/v1/leaderboard', leaderboardRoutes);
 
-        process.exit(1); // <- Then will shut down the server.
-    });
-});
+// Use custom error handlers
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+
+app.listen(PORT, console.log(`CodeIIEST Backend Server running on port ${PORT}`));
