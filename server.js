@@ -14,7 +14,7 @@ import eventRoutes from './routes/eventRoutes.js';
 import leaderboardRoutes from './routes/leaderboardRoutes.js'; 
 
 dotenv.config();
-connectDB();
+// connectDB();
 configurePassport();
 
 const app = express();
@@ -22,6 +22,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
+
+const ensureDbConnection = async (req, res, next) => {
+    await connectDB();
+    next();
+};
+app.use(ensureDbConnection);
 // Test route
 app.get('/', (req, res) => {
     res.send(`Server running fine`);
