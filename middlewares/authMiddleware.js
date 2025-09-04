@@ -1,0 +1,1 @@
+// Authenticate request using JWT or anything else
