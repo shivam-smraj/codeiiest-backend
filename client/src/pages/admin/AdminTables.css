@@ -1,0 +1,133 @@
+/* In /codeiiest-backend/client/src/pages/admin/AdminTables.css (REVISED for Card-Like Responsiveness) */
+
+.admin-table-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.admin-table-header {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center; /* Center align header for better mobile look */
+}
+
+.admin-table-actions {
+    margin-bottom: 1.5rem;
+    display: block; /* Make button block for better spacing */
+    width: fit-content; /* Only take content width */
+    margin-left: auto;
+    margin-right: auto; /* Center the button */
+}
+
+/* Wrapper for desktop table view */
+.admin-table-wrapper {
+    /* For desktop, keep table as is */
+    display: block; 
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden; /* For rounded corners */
+    background-color: var(--secondary-bg-dark);
+}
+
+/* Base table styling */
+.admin-table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table-wrapper th, .admin-table-wrapper td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-light);
+}
+
+.admin-table-wrapper th {
+    background-color: #333;
+    font-weight: 600;
+}
+
+.admin-table-wrapper tr:last-child td {
+    border-bottom: none;
+}
+
+/* Specific button styles for consistency in table cells */
+.admin-table-wrapper td button {
+    margin-right: 0.5rem; /* Space between edit/delete buttons */
+    margin-bottom: 0.5rem; /* Stack vertically if needed */
+}
+.admin-table-wrapper td button:last-child {
+    margin-right: 0;
+}
+
+
+/* --- RESPONSIVE TABLE MAGIC --- */
+@media (max-width: 768px) {
+    .admin-table-wrapper {
+        border: none; /* Remove outer border for card view */
+        background-color: transparent; /* Remove background */
+    }
+
+    .admin-table-wrapper table,
+    .admin-table-wrapper thead,
+    .admin-table-wrapper tbody,
+    .admin-table-wrapper th,
+    .admin-table-wrapper td,
+    .admin-table-wrapper tr {
+        display: block; /* Make all table elements block-level */
+    }
+
+    .admin-table-wrapper thead tr {
+        position: absolute;
+        top: -9999px; /* Hide table headers visually on mobile */
+        left: -9999px;
+    }
+
+    .admin-table-wrapper tr {
+        border: 1px solid var(--border-color);
+        margin-bottom: 1.5rem; /* Space between "cards" */
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: var(--secondary-bg-dark); /* Background for each card */
+    }
+
+    .admin-table-wrapper td {
+        border: none; /* Remove individual cell borders */
+        border-bottom: 1px solid var(--border-color); /* Add a separator between fields */
+        position: relative;
+        padding-left: 50%; /* Make space for the pseudo-element label */
+        text-align: right; /* Align value to the right */
+    }
+
+    .admin-table-wrapper td:last-child {
+        border-bottom: none; /* No border for the last field */
+    }
+
+    .admin-table-wrapper td::before {
+        /* Generate column labels using data-label attribute */
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 45%; /* Space for the label */
+        padding-left: 1rem;
+        font-weight: bold;
+        text-align: left; /* Align label to the left */
+        white-space: nowrap; /* Prevent label from wrapping */
+        color: var(--accent-blue); /* Style labels */
+    }
+
+    .admin-table-wrapper td.actions-cell {
+        text-align: center; /* Center action buttons */
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        display: flex; /* Use flex for buttons */
+        flex-wrap: wrap; /* Allow buttons to wrap */
+        justify-content: center;
+        gap: 0.5rem; /* Space between buttons */
+    }
+    .admin-table-wrapper td.actions-cell::before {
+        content: ""; /* Remove label for actions cell */
+        display: none;
+    }
+}

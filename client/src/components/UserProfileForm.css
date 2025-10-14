@@ -1,0 +1,107 @@
+/* In /codeiiest-backend/client/src/components/UserProfileForm.css */
+
+.user-profile-form-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px; /* Limit width for desktop */
+    margin: 2rem auto;
+    gap: 1rem;
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: var(--secondary-bg-dark);
+}
+
+.user-profile-form-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.user-profile-form-container div {
+    /* Basic styling for input/label groups */
+    margin-bottom: 0.5rem;
+}
+
+.user-profile-form-container label {
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+}
+
+.user-profile-form-container input[type="text"],
+.user-profile-form-container textarea {
+    width: 100%; /* Ensure inputs take full width of their container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+/* Codeforces specific section styling */
+.codeforces-section {
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: var(--primary-bg-dark);
+}
+
+.codeforces-display-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow items to wrap on small screens */
+    gap: 0.5rem;
+}
+
+.codeforces-handle-text {
+    font-weight: bold;
+    font-size: 1.1rem;
+    flex-shrink: 0; /* Prevent handle text from shrinking too much */
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap on mobile */
+}
+
+.form-actions button {
+    flex: 1; /* Make buttons take equal space */
+    min-width: 120px; /* Ensure buttons don't get too small */
+}
+
+/* Responsive adjustments */
+@media (max-width: 550px) {
+    .user-profile-form-container {
+        margin: 1rem auto; /* Less margin on smaller screens */
+        padding: 1.5rem; /* Smaller padding */
+        gap: 0.8rem;
+    }
+
+    .user-profile-form-container h2 {
+        font-size: 1.6rem; /* Smaller title */
+        margin-bottom: 1rem;
+    }
+
+    .form-actions {
+        flex-direction: column; /* Stack buttons vertically on very small screens */
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .user-profile-form-container {
+        padding: 1rem;
+    }
+    .user-profile-form-container h2 {
+        font-size: 1.4rem;
+    }
+    .codeforces-display-row {
+        flex-direction: column; /* Stack handle and button vertically */
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .codeforces-display-row button {
+        width: 100%; /* Full width button */
+    }
+}

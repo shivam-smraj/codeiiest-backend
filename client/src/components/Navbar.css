@@ -1,0 +1,184 @@
+/* In /codeiiest-backend/client/src/components/Navbar.css (REVISED Navbar Styling) */
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--secondary-bg-dark);
+    color: var(--text-light);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-weight: 500;
+}
+
+.navbar-brand {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 700;
+    white-space: nowrap; /* Prevent brand from wrapping */
+}
+
+.nav-links {
+    display: flex;
+    align-items: center; /* Vertically align links */
+    gap: 1.8rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a, .nav-links button {
+    position: relative; /* For underline effect */
+    color: var(--text-light);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem 0; /* Add vertical padding for clickable area */
+    transition: color 0.2s ease-in-out;
+    white-space: nowrap; /* Prevent links from wrapping */
+}
+
+/* Hover effect */
+.nav-links a:hover, .nav-links button:hover {
+    color: var(--accent-blue);
+}
+
+/* Active link indicator (underline) */
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; /* Position below text */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-blue);
+    animation: fadeInBorder 0.3s forwards; /* Animation for active state */
+}
+
+/* Fallback hover underline if no active link */
+.nav-links a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-blue);
+    opacity: 0; /* Hidden by default */
+    animation: fadeInBorder 0.3s forwards;
+}
+
+/* Ensure hover does not apply if link is active */
+.nav-links a.active:hover::after {
+    animation: none; /* No extra animation on active hover */
+    opacity: 1; /* Keep visible */
+}
+
+@keyframes fadeInBorder {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+
+.mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 2rem;
+    cursor: pointer;
+    /* Ensure it has a fixed size so layout doesn't jump */
+    width: 40px; 
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 1100;
+    padding-top: 1rem;
+    align-items: center;
+    justify-content: center;
+    animation: slideIn 0.3s forwards; /* Animation for mobile menu */
+}
+
+.mobile-menu-overlay .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.mobile-menu-overlay .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.mobile-menu-overlay .mobile-nav-links a,
+.mobile-menu-overlay .mobile-nav-links button {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+.mobile-menu-overlay .mobile-nav-links a:hover,
+.mobile-menu-overlay .mobile-nav-links button:hover,
+.mobile-menu-overlay .mobile-nav-links a.active { /* Active style for mobile */
+    color: var(--accent-blue);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    .mobile-menu-button {
+        display: block; /* Show mobile menu button */
+    }
+}

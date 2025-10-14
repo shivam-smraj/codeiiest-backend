@@ -1,0 +1,138 @@
+/* In /codeiiest-backend/client/src/index.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-bg-dark: #1a1a1a;
+    --secondary-bg-dark: #2a2a2a;
+    --text-light: #f0f0f0;
+    --text-dark: #ccc;
+    --accent-blue: #007bff;
+    --accent-green: #28a745;
+    --accent-red: #dc3545;
+    --border-color: #444;
+    --hover-bg: #444;
+
+    --font-family-primary: 'Chakra Petch', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--primary-bg-dark);
+    color: var(--text-light);
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: var(--accent-blue);
+}
+
+button {
+    font-family: var(--font-family-primary);
+}
+
+/* Basic styling for common elements (tables, forms) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: var(--secondary-bg-dark);
+    border-radius: 8px;
+    overflow: hidden; /* For rounded corners on cells */
+}
+
+th, td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #333;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: var(--hover-bg);
+}
+
+button {
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button.primary {
+    background-color: var(--accent-blue);
+    color: white;
+}
+
+button.danger {
+    background-color: var(--accent-red);
+    color: white;
+}
+
+button.secondary {
+    background-color: gray;
+    color: white;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--secondary-bg-dark);
+    color: var(--text-light);
+    font-family: var(--font-family-primary);
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+}
+
+label {
+    margin-bottom: 0.3rem;
+    display: block;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-light);
+}
+
+/* Layout specific */
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex-grow: 1;
+    padding: 1.5rem;
+}
