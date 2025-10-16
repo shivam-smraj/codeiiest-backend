@@ -3,12 +3,17 @@ const mongoose = require("mongoose");
 const User = require("../models/User"); 
 
 module.exports = function (passport) {
+    // Dynamic callback URL based on environment
+    const callbackURL = process.env.NODE_ENV === 'production' && process.env.BACKEND_URL
+        ? `${process.env.BACKEND_URL}/api/auth/google/callback`
+        : "/api/auth/google/callback";
+
     passport.use(
         new GoogleStrategy(
             {
                 clientID: process.env.GOOGLE_CLIENT_ID,
                 clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-                callbackURL: "/api/auth/google/callback",
+                callbackURL: callbackURL,
             },
             async (accessToken, refreshToken, profile, done) => {
                 // 1. Check if the user's email domain is allowed

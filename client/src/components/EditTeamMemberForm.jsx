@@ -5,7 +5,9 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000',
+//   baseURL: 'http://localhost:5000',
+   baseURL: 'https://codeiiest-backend.vercel.app',
+
   withCredentials: true,
 });
 

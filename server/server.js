@@ -19,26 +19,22 @@ require("./config/passport")(passport);
 connectDB();
 
 const app = express();
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'keyboard cat', 
-    resave: false, // Do not save session if unmodified
-    saveUninitialized: false, // Do not create session until something is stored
-    cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true, 
-        maxAge: 24 * 60 * 60 * 1000, 
-        sameSite: 'lax', 
-    }
-}));
 
+// Determine if running in production
+const isProduction = process.env.NODE_ENV === 'production';
+
+// CORS Configuration - Define allowed origins
 const allowedOrigins = [
     'http://localhost:5173', 
     'http://localhost:3000', 
+    process.env.FRONTEND_URL,
+    process.env.CLIENT_URL,
+    process.env.ADMIN_URL,
     'https://www.codeiiest.in',
     'https://codeiiest-testing.vercel.app',
+].filter(Boolean); // Remove undefined values
 
-];
-
+// CORS Middleware (MUST come before session)
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
@@ -49,15 +45,30 @@ app.use(cors({
         }
         return callback(null, true);
     },
-    credentials: true
-}));
-app.use(express.json())
-app.use(session({
-    secret: process.env.SESSION_SECRET ,
-    resave: false,
-    saveUninitialized: false,
+    credentials: true // Essential for sending cookies cross-origin
 }));
 
+// Body parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Session Configuration (SINGLE instance with proper settings)
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'keyboard-cat-change-this-in-production',
+    resave: false, // Do not save session if unmodified
+    saveUninitialized: false, // Do not create session until something is stored
+    proxy: isProduction, // Trust proxy in production (for Railway, Render, etc.)
+    cookie: {
+        secure: isProduction, // HTTPS only in production
+        httpOnly: true, // Prevent XSS attacks
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-site in production
+        // Optionally set domain for subdomain sharing:
+        // domain: isProduction ? '.codeiiest.in' : undefined,
+    }
+}));
+
+// Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 

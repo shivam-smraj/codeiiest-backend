@@ -2,13 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api'; // Use centralized API client
 import './Navbar.css';
-
-const apiClient = axios.create({
-    baseURL: 'http://localhost:5000',
-    withCredentials: true,
-});
 
 const Layout = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -35,7 +30,7 @@ const Layout = ({ children }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const { data } = await apiClient.get('/api/auth/current_user');
+                const { data } = await api.get('/api/auth/current_user');
                 setUser(data);
             } catch (error) {
                 setUser(null);
@@ -48,7 +43,7 @@ const Layout = ({ children }) => {
 
     const handleLogout = async () => {
         try {
-            await apiClient.get('/api/auth/logout');
+            await api.get('/api/auth/logout');
             setUser(null);
             window.location.href = '/';
         } catch (error) {

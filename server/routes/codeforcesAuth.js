@@ -12,6 +12,7 @@ const { ensureAuthenticated } = require('../middleware/authMiddleware');
 const CF_CLIENT_ID = process.env.CF_CLIENT_ID;
 const CF_CLIENT_SECRET = process.env.CF_CLIENT_SECRET;
 const CF_REDIRECT_URI = process.env.CF_REDIRECT_URI || 'http://localhost:5000/api/auth/codeforces/callback';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
 const AUTHORIZATION_URL = 'https://codeforces.com/oauth/authorize';
 const TOKEN_URL = 'https://codeforces.com/oauth/token';
@@ -47,10 +48,10 @@ router.get('/callback', ensureAuthenticated, async (req, res) => {
 
     if (error) {
         console.error(`Codeforces OAuth Error: ${error}`);
-        return res.redirect(`http://localhost:5173/dashboard?cf_error=${error}`);
+        return res.redirect(`${FRONTEND_URL}/dashboard?cf_error=${error}`);
     }
     if (!code) {
-        return res.redirect('http://localhost:5173/dashboard?cf_error=no_code');
+        return res.redirect(`${FRONTEND_URL}/dashboard?cf_error=no_code`);
     }
 
     try {
@@ -70,13 +71,13 @@ router.get('/callback', ensureAuthenticated, async (req, res) => {
 
         if (!id_token) {
             console.error('Codeforces OAuth Error: id_token not found in response.');
-            return res.redirect('http://localhost:5173/dashboard?cf_error=id_token_missing');
+            return res.redirect(`${FRONTEND_URL}/dashboard?cf_error=id_token_missing`);
         }
 
         const decodedPayload = jwt.decode(id_token);
         if (!decodedPayload) {
             console.error('Codeforces OAuth Error: Failed to decode id_token.');
-            return res.redirect('http://localhost:5173/dashboard?cf_error=token_decode_failed');
+            return res.redirect(`${FRONTEND_URL}/dashboard?cf_error=token_decode_failed`);
         }
 
         // --- NEW NONCE VERIFICATION ---
@@ -84,7 +85,7 @@ router.get('/callback', ensureAuthenticated, async (req, res) => {
         if (!sessionNonce || sessionNonce !== decodedPayload.nonce) {
             console.error('Codeforces OAuth Error: Nonce mismatch between session and ID token.',
                           'Session:', sessionNonce, 'ID Token:', decodedPayload.nonce);
-            return res.redirect('http://localhost:5173/dashboard?cf_error=nonce_mismatch');
+            return res.redirect(`${FRONTEND_URL}/dashboard?cf_error=nonce_mismatch`);
         }
         // --- END NEW NONCE VERIFICATION ---
 
@@ -92,7 +93,7 @@ router.get('/callback', ensureAuthenticated, async (req, res) => {
         const currentUser = req.user;
         if (!currentUser) {
             console.error('Codeforces OAuth Error: No authenticated user found in session.');
-            return res.redirect('http://localhost:5173/dashboard?cf_error=user_not_authenticated');
+            return res.redirect(`${FRONTEND_URL}/dashboard?cf_error=user_not_authenticated`);
         }
 
         currentUser.codeforcesId = decodedPayload.handle;
@@ -100,12 +101,12 @@ router.get('/callback', ensureAuthenticated, async (req, res) => {
         currentUser.codeforcesAvatar = decodedPayload.avatar;
         await currentUser.save();
 
-        res.redirect('http://localhost:5173/dashboard?cf_success=true');
+        res.redirect(`${FRONTEND_URL}/dashboard?cf_success=true`);
 
     } catch (error) {
         const errorMsg = error.response ? error.response.data : error.message;
         console.error('An error occurred during Codeforces token exchange:', errorMsg);
-        res.redirect(`http://localhost:5173/dashboard?cf_error=${encodeURIComponent(JSON.stringify(errorMsg))}`);
+        res.redirect(`${FRONTEND_URL}/dashboard?cf_error=${encodeURIComponent(JSON.stringify(errorMsg))}`);
     }
 });
 

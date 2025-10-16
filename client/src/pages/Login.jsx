@@ -43,11 +43,14 @@ const LoginPage = () => {
         transition: 'background-color 0.2s ease-in-out',
     };
 
+    // Use environment variable for API URL
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
     return (
         <div style={loginPageStyle}>
             <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>CodeIIEST Admin & User Portal</h1>
             <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Please log in to continue</p>
-            <a href="http://localhost:5000/api/auth/google">
+            <a href={`${API_BASE_URL}/api/auth/google`}>
                 <button style={loginButtonStyle}>
                     Login with Google
                 </button>

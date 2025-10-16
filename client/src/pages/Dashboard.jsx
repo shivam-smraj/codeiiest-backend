@@ -1,15 +1,8 @@
 // In /codeiiest-backend/client/src/pages/Dashboard.jsx (Updated to link to EditProfilePage)
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
-// UserProfileForm is no longer conditionally rendered here, but we keep the import for the dashboard's own display logic.
-// import UserProfileForm from '../components/UserProfileForm'; // No longer needed here if only linking
-
-const apiClient = axios.create({
-  baseURL: 'http://localhost:5000',
-  withCredentials: true,
-});
+import api from '../utils/api'; // Use centralized API client
 
 const DashboardPage = () => {
     const [user, setUser] = useState(null);
@@ -21,7 +14,7 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const { data } = await apiClient.get('/api/auth/current_user');
+                const { data } = await api.get('/api/auth/current_user');
                 setUser(data);
             } catch (error) {
                 console.error("Not logged in", error);
@@ -50,7 +43,7 @@ const DashboardPage = () => {
 
     const handleLogout = async () => {
         try {
-            await apiClient.get('/api/auth/logout');
+            await api.get('/api/auth/logout');
             window.location.href = '/';
         } catch (error) {
             console.error("Logout failed", error);
