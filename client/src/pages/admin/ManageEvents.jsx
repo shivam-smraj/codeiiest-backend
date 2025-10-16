@@ -1,14 +1,9 @@
 // In /codeiiest-backend/client/src/pages/admin/ManageEvents.jsx (Updated with CSS classes)
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../../utils/api';
 import './AdminTables.css'; // Import the new CSS file
-
-const apiClient = axios.create({
-  baseURL: 'http://localhost:5000',
-  withCredentials: true,
-});
 
 const ManageEvents = () => {
     const [events, setEvents] = useState([]);
@@ -18,7 +13,7 @@ const ManageEvents = () => {
 
     const fetchEvents = async () => {
         try {
-            const { data } = await apiClient.get('/api/events');
+            const { data } = await api.get('/api/events');
             setEvents(data);
         } catch (err) {
             setError('Failed to fetch events. You might not have admin access or the server is down.');
@@ -35,7 +30,7 @@ const ManageEvents = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this event?')) {
             try {
-                await apiClient.delete(`/api/events/${id}`);
+                await api.delete(`/api/events/${id}`);
                 setEvents(events.filter(event => event._id !== id));
                 alert('Event deleted successfully!');
             } catch (err) {

@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../utils/api';
 import './AdminTables.css';
-
-const apiClient = axios.create({
-    baseURL: 'http://localhost:5000',
-    withCredentials: true,
-});
 
 const ManageChapters = () => {
     const [chapters, setChapters] = useState([]);
@@ -33,7 +28,7 @@ const ManageChapters = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this chapter?')) {
             try {
-                await apiClient.delete(`/api/chapters/${id}`);
+                await api.delete(`/api/chapters/${id}`);
                 setChapters(chapters.filter(chapter => chapter._id !== id));
                 alert('Chapter deleted successfully!');
             } catch (err) {

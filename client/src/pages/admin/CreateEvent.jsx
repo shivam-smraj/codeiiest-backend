@@ -16,9 +16,9 @@ const CreateEvent = () => {
 
     const handleSubmit = async (formData) => {
         try {
-            await apiClient.post('/api/events', formData);
+            await api.post('/api/events', formData);
             alert('Event created successfully!');
-            navigate('/admin/events'); // Go back to manage events list
+            navigate('/admin/events');
         } catch (err) {
             alert('Failed to create event. Check console for details.');
             console.error('Error creating event:', err);

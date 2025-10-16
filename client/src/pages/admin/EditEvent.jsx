@@ -1,14 +1,9 @@
 // In /client/src/pages/admin/EditEvent.jsx (Updated)
 
 import React from 'react';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import api from '../../utils/api';
 import EditEventForm from '../../components/EditEventForm'; // Import the new component
-
-const apiClient = axios.create({
-  baseURL: 'http://localhost:5000',
-  withCredentials: true,
-});
 
 const EditEvent = () => {
     const navigate = useNavigate();
@@ -16,7 +11,7 @@ const EditEvent = () => {
 
     const handleUpdate = async (eventId, formData) => { // Modified handleSubmit to handleUpdate
         try {
-            await apiClient.put(`/api/events/${eventId}`, formData);
+            await api.put(`/api/events/${eventId}`, formData);
             alert('Event updated successfully!');
             navigate('/admin/events');
         } catch (err) {

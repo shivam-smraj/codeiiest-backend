@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../utils/api';
 import './AdminTables.css';
-
-const apiClient = axios.create({
-    baseURL: 'http://localhost:5000',
-    withCredentials: true,
-});
 
 const ManageTeamMembers = () => {
     const [teamMembers, setTeamMembers] = useState([]);
@@ -33,7 +28,7 @@ const ManageTeamMembers = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this team member?')) {
             try {
-                await apiClient.delete(`/api/team-members/${id}`);
+                await api.delete(`/api/team-members/${id}`);
                 setTeamMembers(teamMembers.filter(member => member._id !== id));
                 alert('Team member deleted successfully!');
             } catch (err) {
