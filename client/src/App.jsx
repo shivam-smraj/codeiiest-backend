@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import DashboardPage from './pages/Dashboard';
 import ManageEvents from './pages/admin/ManageEvents';
@@ -23,7 +24,7 @@ function App() {
     <Router>
       <Layout> {/* Wrap all routes with the Layout component */}
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/edit-profile" element={<EditProfilePage />} /> 

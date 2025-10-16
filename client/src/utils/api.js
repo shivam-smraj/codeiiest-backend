@@ -13,9 +13,8 @@ api.interceptors.response.use(
     response => response,
     error => {
         if (error.response?.status === 401) {
-            console.error('Unauthorized - Please login');
-            // Optionally redirect to login
-            // window.location.href = '/login';
+            console.log('Authentication required - session may have expired');
+            // Don't automatically redirect - let components handle it
         }
         return Promise.reject(error);
     }

@@ -58,10 +58,11 @@ app.use(session({
     resave: false, // Do not save session if unmodified
     saveUninitialized: false, // Do not create session until something is stored
     proxy: isProduction, // Trust proxy in production (for Railway, Render, etc.)
+    name: 'codeiiest.sid', // Custom session cookie name
     cookie: {
         secure: isProduction, // HTTPS only in production
         httpOnly: true, // Prevent XSS attacks
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days (increased from 24 hours)
         sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-site in production
         // Optionally set domain for subdomain sharing:
         // domain: isProduction ? '.codeiiest.in' : undefined,

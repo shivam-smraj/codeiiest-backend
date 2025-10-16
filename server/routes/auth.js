@@ -24,7 +24,16 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.get('/current_user', (req, res) => {
-    res.send(req.user); 
+    console.log('[AUTH] /current_user called');
+    console.log('[AUTH] Session ID:', req.sessionID);
+    console.log('[AUTH] Is Authenticated:', req.isAuthenticated());
+    console.log('[AUTH] User exists:', !!req.user);
+    
+    if (req.isAuthenticated() && req.user) {
+        res.json(req.user);
+    } else {
+        res.status(401).json({ message: 'Not authenticated' });
+    }
 });
 
 module.exports = router;

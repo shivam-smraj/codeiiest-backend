@@ -1,14 +1,9 @@
 // In /codeiiest-backend/client/src/pages/EditProfilePage.jsx (Minimal changes, rely on CSS)
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../utils/api';
 import UserProfileForm from '../components/UserProfileForm';
-
-const apiClient = axios.create({
-  baseURL: 'http://localhost:5000',
-  withCredentials: true,
-});
 
 const EditProfilePage = () => {
     const [user, setUser] = useState(null);
@@ -19,7 +14,7 @@ const EditProfilePage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const { data } = await apiClient.get('/api/auth/current_user');
+                const { data } = await api.get('/api/auth/current_user');
                 setUser(data);
             } catch (err) {
                 console.error("Error fetching user for edit profile:", err);
@@ -34,7 +29,7 @@ const EditProfilePage = () => {
 
     const handleProfileSubmit = async (formData) => {
         try {
-            await apiClient.put('/api/users/me', formData);
+            await api.put('/api/users/me', formData);
             alert('Profile updated successfully!');
             navigate('/dashboard');
         } catch (err) {

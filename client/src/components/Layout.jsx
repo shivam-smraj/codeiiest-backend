@@ -33,13 +33,14 @@ const Layout = ({ children }) => {
                 const { data } = await api.get('/api/auth/current_user');
                 setUser(data);
             } catch (error) {
+                console.log("Not authenticated or session expired");
                 setUser(null);
             } finally {
                 setLoadingUser(false);
             }
         };
         fetchUser();
-    }, [location.pathname]);
+    }, []); // Remove location.pathname dependency - only fetch once on mount
 
     const handleLogout = async () => {
         try {
