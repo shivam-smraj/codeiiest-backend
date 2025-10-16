@@ -11,7 +11,7 @@ const ManageChapters = () => {
 
     const fetchChapters = async () => {
         try {
-            const { data } = await apiClient.get('/api/chapters');
+            const { data } = await api.get('/api/chapters');
             setChapters(data);
         } catch (err) {
             setError('Failed to fetch chapters. You might not have admin access or the server is down.');

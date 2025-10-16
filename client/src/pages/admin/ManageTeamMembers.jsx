@@ -11,7 +11,7 @@ const ManageTeamMembers = () => {
 
     const fetchTeamMembers = async () => {
         try {
-            const { data } = await apiClient.get('/api/team-members');
+            const { data } = await api.get('/api/team-members');
             setTeamMembers(data);
         } catch (err) {
             setError('Failed to fetch team members. You might not have admin access or the server is down.');
